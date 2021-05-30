@@ -45,6 +45,7 @@ extension_lang_map = {
     ".json": "json",
     ".lua": "lua",
     ".md": "markdown",
+    ".pas": "pascal",
     ".pl": "perl",
     ".ps1": "powershell",
     ".py": "python",
@@ -109,7 +110,7 @@ class Actions:
         global forced_language
         actions.user.code_clear_language_mode()
         actions.mode.enable("user.{}".format(language))
-        # app.notify("Enabled {} mode".format(language))
+        app.notify("Enabled {} mode".format(language))
         forced_language = True
 
     def code_clear_language_mode():

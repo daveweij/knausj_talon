@@ -3,7 +3,7 @@ from typing import Set
 from talon import Module, Context, actions, app
 import sys
 
-default_alphabet = "air bat cap drum each fine gust harp sit jury crunch look made near odd pit quench red sun trap urge vest whale plex yank zip".split(
+default_alphabet = "air bat cap drum each fine cost harp sit joke crunch look made near orc pit quench red sun trap urge vest whale taxi yank zip".split(
     " "
 )
 letters_string = "abcdefghijklmnopqrstuvwxyz"
@@ -222,13 +222,14 @@ simple_keys = [
 ]
 
 alternate_keys = {
-    "delete": "backspace",
+    "delete": "delete",
     "forward delete": "delete",
-    #'junk': 'backspace',
+    'junk': 'backspace',
     "page up": "pageup",
     "page down": "pagedown",
+    'tap': 'tab',
 }
-# mac apparently doesn't have the menu key.
+# mac apparently doesn't have the bmenu key.
 if app.platform in ("windows", "linux"):
     alternate_keys["menu key"] = "menu"
     alternate_keys["print screen"] = "printscr"
@@ -246,4 +247,3 @@ class Actions:
     def get_alphabet() -> dict:
         """Provides the alphabet dictionary"""
         return alphabet
-

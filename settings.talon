@@ -5,7 +5,7 @@ settings():
     # enable if you'd like the picker gui to automatically appear when explorer has focus
     user.file_manager_auto_show_pickers = 0
     #set the max number of command lines per page in help
-    user.help_max_command_lines_per_page = 50
+    user.help_max_command_lines_per_page = 30
     # set the max number of contexts display per page in help
     user.help_max_contexts_per_page = 20
     # The default amount used when scrolling continuously
@@ -23,7 +23,7 @@ settings():
     #mouse grid and friends put the number one on the bottom left (vs on the top left)
     user.grids_put_one_bottom_left = 1
     # the number of lines of command history to display by default
-    user.command_history_display = 10
+    user.command_history_display = 3
     # the number of lines of command history to keep in total;
     # "command history more" to display all of them, "command history less" to restore
     user.command_history_size = 50
@@ -36,4 +36,4 @@ settings():
     #user.context_sensitive_dictation = 1
 	
 # uncomment tag to enable mouse grid
-# tag(): user.mouse_grid_enabled
+tag(): user.mouse_grid_enabled
