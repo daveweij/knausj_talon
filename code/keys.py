@@ -3,7 +3,7 @@ from typing import Set
 from talon import Module, Context, actions, app
 import sys
 
-default_alphabet = "air bat cap drum each fine cost harp sit joke crunch look made near orc pit quench red sun trap urge vest whale taxi yank zip".split(
+default_alphabet = "air bat cap drum each fine cost harp ink joke crunch look made near orc pit quench red soup trap urge vest whale taxi yank zebra".split(
     " "
 )
 letters_string = "abcdefghijklmnopqrstuvwxyz"
@@ -137,6 +137,7 @@ punctuation_words = {
     "comma": ",",
     "period": ".",
     "semicolon": ";",
+    "wink": ";",
     "colon": ":",
     "forward slash": "/",
     "question mark": "?",
@@ -150,6 +151,7 @@ punctuation_words = {
     "at sign": "@",
     "and sign": "&",
     "ampersand": "&",
+    "low line": "_",
 }
 symbol_key_words = {
     "dot": ".",

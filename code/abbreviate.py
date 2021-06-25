@@ -106,6 +106,7 @@ ctx.lists["user.abbreviation"] = {
     "instance": "inst",
     "integer": "int",
     "interrupt": "int",
+    "intrinsic": "intr",
     "iterate": "iter",
     "java archive": "jar",
     "javascript": "js",
