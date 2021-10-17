@@ -3,7 +3,7 @@ from typing import Set
 from talon import Module, Context, actions, app
 import sys
 
-default_alphabet = "air bat cap drum each fine cost harp ink joke crunch look made near orc pit quench red sky trap urge vest whale taxi yank zebra".split(
+default_alphabet = "air bat cap drum each fine cost harp ink joke crunch look made near orc pit quench red sky trap urch vest whale taxi yank zebra".split(
     " "
 )
 letters_string = "abcdefghijklmnopqrstuvwxyz"
@@ -127,15 +127,16 @@ ctx.lists["self.letter"] = alphabet
 
 # `punctuation_words` is for words you want available BOTH in dictation and as
 # key names in command mode. `symbol_key_words` is for key names that should be
-# available in command mode, but NOT during dictation.
 punctuation_words = {
     # TODO: I'm not sure why we need these, I think it has something to do with
     # Dragon. Possibly it has been fixed by later improvements to talon? -rntz
     "`": "`",
     ",": ",",  # <== these things
     "back tick": "`",
+    "grave": "`",
     "comma": ",",
     "period": ".",
+    "full stop": ".",
     "semicolon": ";",
     "wink": ";",
     "colon": ":",
@@ -143,7 +144,6 @@ punctuation_words = {
     "question mark": "?",
     "exclamation mark": "!",
     "exclamation point": "!",
-    "dollar sign": "$",
     "asterisk": "*",
     "hash sign": "#",
     "number sign": "#",
@@ -151,11 +151,17 @@ punctuation_words = {
     "at sign": "@",
     "and sign": "&",
     "ampersand": "&",
+
+    # Currencies
+    "dollar sign": "$",
+    "pound sign": "£",
     "low line": "_",
 }
 symbol_key_words = {
     "dot": ".",
+    "point": ".",
     "quote": "'",
+    "apostrophe": "'",
     "L square": "[",
     "left square": "[",
     "square": "[",
@@ -169,7 +175,6 @@ symbol_key_words = {
     "plus": "+",
     "tilde": "~",
     "bang": "!",
-    "dollar": "$",
     "down score": "_",
     "under score": "_",
     "paren": "(",
@@ -189,7 +194,6 @@ symbol_key_words = {
     "right angle": ">",
     "greater than": ">",
     "star": "*",
-    "pound": "#",
     "hash": "#",
     "percent": "%",
     "caret": "^",
@@ -197,6 +201,10 @@ symbol_key_words = {
     "pipe": "|",
     "dubquote": '"',
     "double quote": '"',
+
+    # Currencies
+    "dollar": "$",
+    "pound": "£",
 }
 
 # make punctuation words also included in {user.symbol_keys}

@@ -43,6 +43,8 @@ ctx.lists["user.code_functions"] = {
 }
 
 mod.list("pascal_types", desc="Common Pascal types")
+mod.list("pascal_constness", desc="Common Pascal types")
+mod.list("pascal_scope", desc="Common Pascal types")
 
 
 @mod.capture(rule="{self.pascal_types}")

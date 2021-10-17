@@ -5,4 +5,5 @@ lock, slack.exe
 app, slack.exe
 lockapp, slack.exe
 pycharm, pycharm64.exe
+delphi, bds.exe
 webstorm, webstorm64.exe

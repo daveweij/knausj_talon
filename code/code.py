@@ -63,9 +63,6 @@ extension_lang_map = {
 }
 
 # flag indicates whether or not the title tracking is enabled
-forced_language = False
-
-
 @mod.capture(rule="{user.code_functions}")
 def code_functions(m) -> str:
     """Returns a function name"""
@@ -88,11 +85,9 @@ def code_libraries(m) -> str:
 class code_actions:
     def language():
         result = ""
-        if not forced_language:
-            file_extension = actions.win.file_ext()
-
-            if file_extension and file_extension in extension_lang_map:
-                result = extension_lang_map[file_extension]
+        file_extension = actions.win.file_ext()
+        if file_extension and file_extension in extension_lang_map:
+            result = extension_lang_map[file_extension]
 
         # print("code.language: " + result)
         return result
@@ -103,21 +98,23 @@ for __, lang in extension_lang_map.items():
     mod.mode(lang)
 
 
+mod.mode("auto_lang")
+
+# Auto lang is enabled by default
+app.register("ready", lambda: actions.user.code_clear_language_mode())
+
 @mod.action_class
 class Actions:
     def code_set_language_mode(language: str):
         """Sets the active language mode, and disables extension matching"""
-        global forced_language
         actions.user.code_clear_language_mode()
+        actions.mode.disable("user.auto_lang")
         actions.mode.enable("user.{}".format(language))
         app.notify("Enabled {} mode".format(language))
-        forced_language = True
 
     def code_clear_language_mode():
         """Clears the active language mode, and re-enables code.language: extension matching"""
-        global forced_language
-        forced_language = False
-
+        actions.mode.enable("user.auto_lang")
         for __, lang in extension_lang_map.items():
             actions.mode.disable("user.{}".format(lang))
         # app.notify("Cleared language modes")
