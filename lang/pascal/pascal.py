@@ -9,6 +9,7 @@ mode: command
 and code.language: pascal
 """
 
+
 ctx.lists["self.pascal_types"] = {
     "character": "char",
     "char": "char",
@@ -60,6 +61,119 @@ def pascal_variable(m) -> str:
     text = text + "[|]: {}".format(list(m)[-1])
     return text
 
+@ctx.action_class("user")
+class UserActions:
+    def code_operator_indirection(): actions.auto_insert("^")
+    def code_operator_address_of(): actions.auto_insert("@")
+    def code_operator_structure_dereference(): actions.auto_insert("^")
+    def code_operator_lambda(): actions.auto_insert("")
+    def code_operator_subscript():
+        actions.insert("[]")
+        actions.key("left")
+    def code_operator_assignment(): actions.auto_insert(" := ")
+    def code_operator_subtraction(): actions.auto_insert(" - ")
+    def code_operator_subtraction_assignment():
+        actions.insert("Dec()")
+        actions.key("left")
+    def code_operator_addition(): actions.auto_insert(" + ")
+    def code_operator_addition_assignment():
+        actions.insert("Inc()")
+        actions.key("left")
+    def code_operator_multiplication(): actions.auto_insert(" * ")
+    def code_operator_multiplication_assignment(): actions.auto_insert("")
+    def code_operator_exponent():
+        actions.insert("Power(,)")
+        actions.key("left")
+        actions.key("left")
+    def code_operator_division(): actions.auto_insert(" / ")
+    def code_operator_division_assignment(): actions.auto_insert("")
+    def code_operator_modulo(): actions.auto_insert(" mod ")
+    def code_operator_modulo_assignment(): actions.auto_insert("")
+    def code_operator_equal(): actions.auto_insert(" = ")
+    def code_operator_not_equal(): actions.auto_insert(" <> ")
+    def code_operator_greater_than(): actions.auto_insert(" > ")
+    def code_operator_greater_than_or_equal_to(): actions.auto_insert(" >= ")
+    def code_operator_less_than(): actions.auto_insert(" < ")
+    def code_operator_less_than_or_equal_to(): actions.auto_insert(" <= ")
+    def code_operator_and(): actions.auto_insert(" and ")
+    def code_operator_or(): actions.auto_insert(" or ")
+    def code_operator_bitwise_and(): actions.auto_insert(" and ")
+    def code_operator_bitwise_and_assignment(): actions.auto_insert("")
+    def code_operator_bitwise_or(): actions.auto_insert(" or ")
+    def code_operator_bitwise_or_assignment(): actions.auto_insert("")
+    def code_operator_bitwise_exclusive_or(): actions.auto_insert(" xor ")
+    def code_operator_bitwise_exclusive_or_assignment(): actions.auto_insert("")
+    def code_operator_bitwise_left_shift(): actions.auto_insert(" lsh ")
+    def code_operator_bitwise_left_shift_assignment(): actions.auto_insert("")
+    def code_operator_bitwise_right_shift(): actions.auto_insert(" rsh ")
+    def code_operator_bitwise_right_shift_assignment(): actions.auto_insert("")
+    def code_self(): actions.auto_insert("")
+    def code_null(): actions.auto_insert("nil")
+    def code_is_null():
+        actions.insert(" and Assigned()")
+        actions.key("left")
+    def code_is_not_null():
+        actions.insert("Assigned()")
+        actions.key("left")
+    def code_state_if():
+        actions.insert("if then")
+        actions.edit.word_left()
+        actions.key("space")
+        actions.edit.left()
+    def code_state_else_if():
+        actions.insert("else if then")
+        actions.edit.word_left()
+        actions.key("space")
+        actions.edit.left()
+    def code_state_else():
+        actions.insert("else")
+        actions.key("enter")
+    def code_state_switch(): actions.auto_insert("")
+    def code_state_case():
+        actions.insert("case of\nend;")
+        actions.edit.word_left()
+        actions.key(up)
+    def code_state_for(): 
+        actions.insert("for := to do")
+        actions.edit.word_left()
+        actions.edit.word_left()
+        actions.edit.word_left()
+        actions.key("space")
+        actions.edit.left()
+    def code_state_for_each():
+        actions.insert("for in ")
+        actions.key("left")
+        actions.edit.word_left()
+        actions.key("space")
+        actions.edit.left()
+    def code_state_while():
+        actions.insert("while do")
+        actions.edit.word_left()
+        actions.key("space")
+        actions.edit.left()
+    def code_type_class():
+        actions.insert("= class;")
+        actions.edit.word_left()
+        actions.edit.word_left()
+        actions.key("space")
+        actions.edit.left()
+    def code_import():
+        actions.insert(";")
+        actions.edit.left()
+    def code_from_import(): actions.auto_insert("")
+    def code_comment(): actions.auto_insert("// ")
+    def code_state_return():
+	    actions.insert("Result := ")
+    def code_true(): actions.auto_insert("True")
+    def code_false(): actions.auto_insert("False")
+    def code_block_comment():
+        actions.insert("{")
+        actions.key("enter")
+        actions.key("enter")
+        actions.insert("}")
+        actions.edit.up()
+    def code_block_comment_prefix(): actions.auto_insert("{")
+    def code_block_comment_suffix(): actions.auto_insert("}")
 
 @mod.action_class
 class PascalFunctions:
