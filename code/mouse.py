@@ -196,8 +196,9 @@ class Actions:
 
     def mouse_scroll_up_continuous():
         """Scrolls up continuously"""
-        global continuous_scoll_mode
+        global continuous_scoll_mode, scroll_amount
         continuous_scoll_mode = "scroll up continuous"
+        scroll_amount = 0
         mouse_scroll(-setting_mouse_continuous_scroll_amount.get())()
 
         if scroll_job is None:
