@@ -137,9 +137,9 @@ punctuation_words = {
     "comma": ",",
     "period": ".",
     "full stop": ".",
-    "semicolon": ";",
+    "semicoal": ";",
     "wink": ";",
-    "colon": ":",
+    "coal": ":",
     "forward slash": "/",
     "question mark": "?",
     "exclamation mark": "!",
@@ -250,5 +250,3 @@ ctx.lists["self.special_key"] = special_keys
 ctx.lists["self.function_key"] = {
     f"funk {default_f_digits[i]}": f"f{i + 1}" for i in range(12)
 }
-
-
