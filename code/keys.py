@@ -3,7 +3,7 @@ from typing import Set
 from talon import Module, Context, actions, app
 import sys
 
-default_alphabet = "air bat cap drum each fine cost harp ink joke crunch look made near orc pit quench red sky trap urch vest whale taxi yank zebra".split(
+default_alphabet = "air bat cap drum each fine cost harp ink joke crunch look made near ork pit quench red sky trap urch vest whale taxi yank zebra".split(
     " "
 )
 letters_string = "abcdefghijklmnopqrstuvwxyz"
@@ -114,7 +114,7 @@ ctx = Context()
 modifier_keys = {
     # If you find 'alt' is often misrecognized, try using 'alter'.
     "alt": "alt",  #'alter': 'alt',
-    "control": "ctrl",  #'troll':   'ctrl',
+    "control": "ctrl",  'troll':   'ctrl',
     "shift": "shift",  #'sky':     'shift',
     "super": "super",
 }
@@ -130,8 +130,8 @@ ctx.lists["self.letter"] = alphabet
 punctuation_words = {
     # TODO: I'm not sure why we need these, I think it has something to do with
     # Dragon. Possibly it has been fixed by later improvements to talon? -rntz
-    "`": "`",
-    ",": ",",  # <== these things
+    # "`": "`",
+    # ",": ",",  # <== these things
     "back tick": "`",
     "grave": "`",
     "comma": ",",
@@ -236,7 +236,9 @@ alternate_keys = {
     "forward delete": "delete",
     'junk': 'backspace',
     "page up": "pageup",
+    "paitch up": "pageup",
     "page down": "pagedown",
+    "paitch down": "pagedown",
     'tap': 'tab',
 }
 # mac apparently doesn't have the bmenu key.
