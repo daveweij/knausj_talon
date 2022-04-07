@@ -50,5 +50,5 @@ settings():
     # per-application basis.
     # user.context_sensitive_dictation = 1
 
-# uncomment tag to enable mouse grid
-tag(): user.mouse_grid_enabled
+# Uncomment this to enable the curse yes/curse no commands (show hide mouse cursor). See issue #688.
+# tag(): user.mouse_cursor_commands_enable

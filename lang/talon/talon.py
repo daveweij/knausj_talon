@@ -28,9 +28,7 @@ mod.list("talon_scopes")
 mod.list("talon_modes")
 
 ctx.matches = r"""
-mode: user.talon
-mode: user.auto_lang 
-and code.language: talon
+tag: user.talon
 """
 ctx.lists["user.code_functions"] = {
     "insert": "insert",
@@ -40,8 +38,7 @@ ctx.lists["user.code_functions"] = {
 }
 
 
-def update_lists(decls):
-    # print("update_lists")
+def on_update_decls(decls):
     # todo modes?
     for thing in [
         "actions",
@@ -66,8 +63,8 @@ def update_lists(decls):
 
 def on_ready():
     # print("on_ready")
-    update_lists(registry.decls)
-    registry.register("update_decls", update_lists)
+    on_update_decls(registry.decls)
+    registry.register("update_decls", on_update_decls)
 
 
 app.register("ready", on_ready)
@@ -96,14 +93,10 @@ class UserActions:
     def code_operator_assignment():
         actions.auto_insert(" = ")
 
-    def code_comment():
+    def code_comment_line_prefix():
         actions.auto_insert("#")
 
     def code_insert_function(text: str, selection: str):
-        if selection:
-            text = text + "({})".format(selection)
-        else:
-            text = text + "()"
-
+        text += f"({selection or ''})"
         actions.user.paste(text)
         actions.edit.left()
