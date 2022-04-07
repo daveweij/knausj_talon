@@ -29,7 +29,7 @@ empty escaped string:
     "\\'\\'"
     key(left)
     key(left)
-(inside parens | args):
+(inside parens | arcs):
 	insert("()")
 	key(left)
 inside (squares | square brackets | list):
@@ -59,7 +59,7 @@ angle that:
 (bracket | brace) that:
     text = edit.selected_text()
     user.paste("{{{text}}}")
-(parens | args) that:
+(parens | arcs) that:
     text = edit.selected_text()
     user.paste("({text})")
 percent that:
