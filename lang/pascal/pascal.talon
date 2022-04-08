@@ -1,6 +1,5 @@
-mode: user.pascal
+tag: user.pascal
 mode: command
-and code.language: pascal
 -
 tag(): user.code_operators
 tag(): user.code_comment

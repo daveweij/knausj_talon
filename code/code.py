@@ -42,6 +42,7 @@ language_extensions = {
     'typescriptreact': 'tsx',
     # 'vba': 'vba',
     'vimscript': 'vim vimrc',
+    'pascal': 'pas',
 }
 
 # Override speakable forms for language modes. If not present, a language mode's

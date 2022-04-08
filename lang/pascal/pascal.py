@@ -4,11 +4,26 @@ mod = Module()
 
 ctx = Context()
 ctx.matches = r"""
-mode: user.pascal
+tag: user.pascal
 mode: command
-and code.language: pascal
 """
 
+ctx.tags = [
+    'user.code_operators',
+    'user.code_generic',
+    'user.code_functions_gui',
+    'user.code_imperative',
+    'user.code_data_bool',
+    'user.code_comment_line',
+    'user.code_comment_block',
+    'user.code_object_orientedcode_comment_block',
+    'user.code_object_oriented',
+    'user.code_operators_array',
+    'user.code_operators_assignment',
+    'user.code_operators_assignment',
+    'user.code_operators_lambda',
+    'user.code_operators_math',
+    'user.code_operators_pointer']
 
 ctx.lists["self.pascal_types"] = {
     "character": "char",
