@@ -6,23 +6,23 @@ talon copy context pie: user.talon_add_context_clipboard_python()
 talon copy context: user.talon_add_context_clipboard()
 talon copy name:
     name = app.name()
-    clip.set_text(name)  
+    clip.set_text(name)
 talon copy executable:
     executable = app.executable()
     clip.set_text(executable)
 talon copy bundle:
     bundle = app.bundle()
     clip.set_text(bundle)
-talon copy title: 
+talon copy title:
     title = win.title()
     clip.set_text(title)
-talon dump version: 
+talon dump version:
     result = user.talon_version_info()
     print(result)
-talon insert version: 
+talon insert version:
     result = user.talon_version_info()
     user.paste(result)
-talon dump context: 
+talon dump context:
     result = user.talon_get_active_context()
     print(result)
 ^talon test last$:
