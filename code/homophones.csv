@@ -102,7 +102,7 @@ brewed,brood
 browse,brows
 brute,brut
 build,billed
-bullion,bouillon,boolean
+boolean,bouillon,bullion
 boy,buoy
 burger,burgher
 borough,burrow,burro
@@ -314,7 +314,7 @@ its,it's
 jam,jamb
 json,jason
 jinx,jinks
-kernel,colonel
+colonel,kernel
 nap,knap
 nave,knave
 new,knew,gnu
@@ -450,7 +450,7 @@ please,pleas
 plum,plumb
 poll,pole
 pull,pool
-pour,pore
+pour,pore,poor
 praise,prays,preys
 precedence,precedents
 premier,premiere
