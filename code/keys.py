@@ -138,7 +138,7 @@ punctuation_words = {
     "full stop": ".",
     "semicoal": ";",
     "wink": ";",
-    "coal": ":",
+    "stack": ":",
     "forward slash": "/",
     "question mark": "?",
     "exclamation mark": "!",
