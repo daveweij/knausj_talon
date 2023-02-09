@@ -27,7 +27,7 @@ state begin end:
     insert("begin")
     key(enter)
     key(enter)
-    insert("end")
+    insert("end;")
     edit.up()
 
 ^funky <user.text>$: user.pascal_private_function(text)
@@ -60,6 +60,9 @@ state out: "out"
 state exit: "EXIT;"    
 state continue: "CONTINUE;"    
 state break: "BREAK;"    
+
+state constructor: "constructor Create();"
+state destructor: "destructor Destroy(); override;"
 
 type <user.pascal_types>: "{pascal_types}"
 # <user.pascal_variable> <phrase>: 
