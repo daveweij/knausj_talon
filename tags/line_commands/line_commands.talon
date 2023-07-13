@@ -20,7 +20,7 @@ clear [line] <number>:
 clear <number> until <number>:
     user.select_range(number_1, number_2)
     edit.delete()
-copy [line] <number>:
+copy line <number>:
     user.select_range(number, number)
     edit.copy()
 copy <number> until <number>:
