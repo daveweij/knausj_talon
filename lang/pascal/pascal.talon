@@ -64,6 +64,5 @@ state break: "BREAK;"
 state constructor: "constructor Create();"
 state destructor: "destructor Destroy(); override;"
 
-type <user.pascal_types>: "{pascal_types}"
 # <user.pascal_variable> <phrase>: 
 #     user.insert_cursor("{pascal_variable}", "{phrase}")

@@ -9,23 +9,20 @@ mode: command
 """
 
 ctx.tags = [
-    'user.code_operators',
-    'user.code_generic',
-    'user.code_functions_gui',
     'user.code_imperative',
     'user.code_data_bool',
     'user.code_comment_line',
     'user.code_comment_block',
-    'user.code_object_orientedcode_comment_block',
     'user.code_object_oriented',
     'user.code_operators_array',
     'user.code_operators_assignment',
     'user.code_operators_assignment',
     'user.code_operators_lambda',
     'user.code_operators_math',
-    'user.code_operators_pointer']
+    'user.code_operators_pointer'
+]
 
-ctx.lists["self.pascal_types"] = {
+ctx.lists["self.code_type"] = {
     "character": "char",
     "char": "char",
     "string": "string",
@@ -53,23 +50,16 @@ ctx.lists["user.code_libraries"] = {
     "system math": "System.Math",
 }
 
-ctx.lists["user.code_functions"] = {
+ctx.lists["user.code_common_function"] = {
     "increase": "Inc",
     "decrease": "Dec",
 }
 
-mod.list("pascal_types", desc="Common Pascal types")
 mod.list("pascal_constness", desc="Common Pascal types")
 mod.list("pascal_scope", desc="Common Pascal types")
 
 
-@mod.capture(rule="{self.pascal_types}")
-def pascal_types(m) -> str:
-    "Returns a string"
-    return m.pascal_types
-
-
-@mod.capture(rule="[<self.pascal_constness>] [<self.pascal_scopes>] <self.pascal_types>")
+@mod.capture(rule="[<self.pascal_constness>] [<self.pascal_scopes>] <self.code_type>")
 def pascal_variable(m) -> str:
     "Returns a string"
     text = " ".join(list(m)[:-1])
