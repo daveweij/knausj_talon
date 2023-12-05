@@ -4,7 +4,6 @@ app: vscode
 tag(): user.find_and_replace
 tag(): user.line_commands
 tag(): user.multiple_cursors
-tag(): user.snippets
 tag(): user.splits
 tag(): user.tabs
 window reload: user.vscode("workbench.action.reloadWindow")
@@ -131,7 +130,10 @@ go recent [<user.text>]:
 go edit: user.vscode("workbench.action.navigateToLastEditLocation")
 
 # Bookmarks. Requires Bookmarks plugin
-go marks: user.vscode("workbench.view.extension.bookmarks")
+bar marks: user.vscode("workbench.view.extension.bookmarks")
+go marks:
+    user.deprecate_command("2023-06-06", "go marks", "bar marks")
+    user.vscode("workbench.view.extension.bookmarks")
 toggle mark: user.vscode("bookmarks.toggle")
 go next mark: user.vscode("bookmarks.jumpToNext")
 go last mark: user.vscode("bookmarks.jumpToPrevious")
@@ -178,7 +180,7 @@ git merge: user.vscode("git.merge")
 git output: user.vscode("git.showOutput")
 git pull: user.vscode("git.pullRebase")
 git push: user.vscode("git.push")
-git push focus: user.vscode("git.pushForce")
+git push force: user.vscode("git.pushForce")
 git rebase abort: user.vscode("git.rebaseAbort")
 git reveal: user.vscode("git.revealInExplorer")
 git revert: user.vscode("git.revertChange")
