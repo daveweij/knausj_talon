@@ -1,5 +1,4 @@
-tag: user.pascal
-mode: command
+code.language: pascal
 -
 tag(): user.code_operators_math
 tag(): user.code_operators_assignment
@@ -19,7 +18,6 @@ settings():
     user.code_private_variable_formatter = "PUBLIC_CAMEL_CASE"
     user.code_protected_variable_formatter = "PUBLIC_CAMEL_CASE"
     user.code_public_variable_formatter = "PUBLIC_CAMEL_CASE"
-
 
 state begin: "begin"
 state end: "end"
@@ -52,6 +50,19 @@ state uses:
     insert("  ;")
     edit.left()
 
+go up to <user.pascal_section>:
+    key(escape)
+    key(?)
+    key(^)
+    insert(pascal_section)
+    key(enter)
+
+go down to <user.pascal_section>:
+    key(escape)
+    key(/)
+    key(^)
+    insert(pascal_section)
+    key(enter)
 
 state constant: "const"
 state variable: "var"

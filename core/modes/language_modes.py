@@ -1,7 +1,6 @@
 from talon import Context, Module, actions
 
 
-
 # commented out entries. TODO: make this a csv file?
 language_extensions = {
     # 'assembly': 'asm s',
@@ -43,7 +42,7 @@ language_extensions = {
     "typescriptreact": "tsx",
     # 'vba': 'vba',
     "vimscript": "vim vimrc",
-    'pascal': 'pas',
+    "pascal": "pas dpr",
 }
 
 # Override speakable forms for language modes. If not present, a language mode's
