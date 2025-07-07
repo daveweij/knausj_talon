@@ -50,14 +50,14 @@ state uses:
     insert("  ;")
     edit.left()
 
-go up to <user.pascal_section>:
+forward to <user.pascal_section>:
     key(escape)
     key(?)
     key(^)
     insert(pascal_section)
     key(enter)
 
-go down to <user.pascal_section>:
+back <user.pascal_section>:
     key(escape)
     key(/)
     key(^)
