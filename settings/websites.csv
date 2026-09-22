@@ -29,3 +29,9 @@ https://dev.azure.com/bentleycs/GeoSim/_sprints/taskboard/Plaxis%20-%20Blue#,spr
 https://dev.azure.com/bentleycs/GeoSim/_build?definitionScope=%5CPlaxis,pipelines
 
 https://dev.azure.com/bentleycs/GeoSim/_apps/hub/7pace.Timetracker.Timesheet,timesheet
+
+https://github.com/seequent/user-portal,user portal repo
+
+https://github.com/seequent/user-portal/pulls?q=is%3Aopen+is%3Apr+label%3ACPT2BH,user portal pull requests
+
+https://github.com/seequent/core-compute-tasks,core compute repo
