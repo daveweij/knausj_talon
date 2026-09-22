@@ -10,8 +10,6 @@ os: windows
 
 @ctx.action_class("app")
 class AppActions:
-    # app.preferences()
-
     def tab_close():
         actions.key("ctrl-w")
 
@@ -38,3 +36,9 @@ class AppActions:
 
     def window_open():
         actions.key("ctrl-n")
+
+
+@ctx.action_class("user")
+class UserActions:
+    def switcher_focus_last():
+        actions.key("alt-tab")

@@ -1,90 +1,109 @@
-from talon import Module, app, registry, scope, skia, ui
+from typing import Optional
+
+from talon import Module, actions, app, cron, registry, scope, settings, skia, ui
 from talon.canvas import Canvas
 from talon.screen import Screen
 from talon.skia.canvas import Canvas as SkiaCanvas
 from talon.skia.imagefilter import ImageFilter
-from talon.ui import Rect
+from talon.ui import Point2d, Rect
 
 canvas: Canvas = None
 current_mode = ""
+current_microphone = ""
+# True: always show indicator, False: always hide indicator, None: visibility determined by the `user.mode_indicator_show` setting
+visibility_mode = None
 mod = Module()
 
-setting_show = mod.setting(
+mod.setting(
     "mode_indicator_show",
-    bool,
-    desc="If true the mode indicator is shown",
+    type=bool,
     default=False,
+    desc="If true the mode indicator is shown",
 )
-setting_size = mod.setting(
+mod.setting(
+    "mode_indicator_show_microphone_name",
+    type=bool,
+    default=False,
+    desc="Show first two letters of microphone name if true",
+)
+mod.setting(
     "mode_indicator_size",
-    float,
+    type=float,
     desc="Mode indicator diameter in pixels",
 )
-setting_x = mod.setting(
+mod.setting(
     "mode_indicator_x",
-    float,
+    type=float,
     desc="Mode indicator center X-position in percentages(0-1). 0=left, 1=right",
 )
-setting_y = mod.setting(
+mod.setting(
     "mode_indicator_y",
-    float,
+    type=float,
     desc="Mode indicator center Y-position in percentages(0-1). 0=top, 1=bottom",
 )
-setting_color_alpha = mod.setting(
+mod.setting(
     "mode_indicator_color_alpha",
-    float,
+    type=float,
     desc="Mode indicator alpha/opacity in percentages(0-1). 0=fully transparent, 1=fully opaque",
 )
-setting_color_gradient = mod.setting(
+mod.setting(
     "mode_indicator_color_gradient",
-    float,
+    type=float,
     desc="Mode indicator gradient brightness in percentages(0-1). 0=darkest, 1=brightest",
 )
-setting_color_sleep = mod.setting("mode_indicator_color_sleep", str)
-setting_color_dictation = mod.setting("mode_indicator_color_dictation", str)
-setting_color_mixed = mod.setting("mode_indicator_color_mixed", str)
-setting_color_command = mod.setting("mode_indicator_color_command", str)
-setting_color_other = mod.setting("mode_indicator_color_other", str)
+mod.setting("mode_indicator_color_text", type=str)
+mod.setting("mode_indicator_color_mute", type=str)
+mod.setting("mode_indicator_color_sleep", type=str)
+mod.setting("mode_indicator_color_deep_sleep", type=str)
+mod.setting("mode_indicator_color_dictation", type=str)
+mod.setting("mode_indicator_color_mixed", type=str)
+mod.setting("mode_indicator_color_command", type=str)
+mod.setting("mode_indicator_color_other", type=str)
 
-setting_paths = {
-    s.path
-    for s in [
-        setting_show,
-        setting_size,
-        setting_x,
-        setting_y,
-        setting_color_alpha,
-        setting_color_gradient,
-        setting_color_sleep,
-        setting_color_dictation,
-        setting_color_mixed,
-        setting_color_command,
-        setting_color_other,
-    ]
-}
+
+setting_values = dict.fromkeys(
+    (
+        "user.mode_indicator_show",
+        "user.mode_indicator_size",
+        "user.mode_indicator_x",
+        "user.mode_indicator_y",
+        "user.mode_indicator_color_alpha",
+        "user.mode_indicator_color_gradient",
+        "user.mode_indicator_color_mute",
+        "user.mode_indicator_color_sleep",
+        "user.mode_indicator_color_deep_sleep",
+        "user.mode_indicator_color_dictation",
+        "user.mode_indicator_color_mixed",
+        "user.mode_indicator_color_command",
+        "user.mode_indicator_color_other",
+    )
+)
 
 
 def get_mode_color() -> str:
+    if current_microphone == "None":
+        return settings.get("user.mode_indicator_color_mute")
     if current_mode == "sleep":
-        return setting_color_sleep.get()
-    elif current_mode == "dictation":
-        return setting_color_dictation.get()
-    elif current_mode == "mixed":
-        return setting_color_mixed.get()
-    elif current_mode == "command":
-        return setting_color_command.get()
-    else:
-        return setting_color_other.get()
+        if "user.deep_sleep" in scope.get("tag"):
+            return settings.get("user.mode_indicator_color_deep_sleep")
+        return settings.get("user.mode_indicator_color_sleep")
+    if current_mode == "dictation":
+        return settings.get("user.mode_indicator_color_dictation")
+    if current_mode == "mixed":
+        return settings.get("user.mode_indicator_color_mixed")
+    if current_mode == "command":
+        return settings.get("user.mode_indicator_color_command")
+    return settings.get("user.mode_indicator_color_other")
 
 
 def get_alpha_color() -> str:
-    return f"{int(setting_color_alpha.get() * 255):02x}"
+    return f"{int(settings.get('user.mode_indicator_color_alpha') * 255):02x}"
 
 
 def get_gradient_color(color: str) -> str:
-    factor = setting_color_gradient.get()
+    factor = settings.get("user.mode_indicator_color_gradient")
     # hex -> rgb
-    (r, g, b) = tuple(int(color[i : i + 2], 16) for i in (0, 2, 4))
+    r, g, b = tuple(int(color[i : i + 2], 16) for i in (0, 2, 4))
     # Darken rgb
     r, g, b = int(r * factor), int(g * factor), int(b * factor)
     # rgb -> hex
@@ -95,16 +114,20 @@ def get_colors():
     color_mode = get_mode_color()
     color_gradient = get_gradient_color(color_mode)
     color_alpha = get_alpha_color()
-    return f"{color_mode}{color_alpha}", f"{color_gradient}"
+    color_text = settings.get("user.mode_indicator_color_text")
+    return f"{color_mode}{color_alpha}", color_gradient, color_text
 
 
 def on_draw(c: SkiaCanvas):
-    color_mode, color_gradient = get_colors()
+    color_mode, color_gradient, color_text = get_colors()
     x, y = c.rect.center.x, c.rect.center.y
     radius = c.rect.height / 2 - 2
 
+    if radius <= 0:
+        return
+
     c.paint.shader = skia.Shader.radial_gradient(
-        (x, y), radius, [color_mode, color_gradient]
+        Point2d(x, y), radius, [color_mode, color_gradient]
     )
 
     c.paint.imagefilter = ImageFilter.drop_shadow(1, 1, 1, 1, color_gradient)
@@ -113,20 +136,36 @@ def on_draw(c: SkiaCanvas):
     c.paint.color = color_mode
     c.draw_circle(x, y, radius)
 
+    if settings.get("user.mode_indicator_show_microphone_name"):
+        # Remove c.paint.shader gradient before drawing again
+        c.paint.shader = skia.Shader.radial_gradient(
+            Point2d(x, y), radius, [color_text, color_text]
+        )
+
+        text = current_microphone[:2]
+        c.paint.style = c.paint.Style.FILL
+        c.paint.color = color_text
+        text_rect = c.paint.measure_text(text)[1]
+        c.draw_text(
+            text,
+            x - text_rect.center.x,
+            y - text_rect.center.y,
+        )
+
 
 def move_indicator():
     screen: Screen = ui.main_screen()
     rect = screen.rect
     scale = screen.scale if app.platform != "mac" else 1
-    radius = setting_size.get() * scale / 2
+    radius = settings.get("user.mode_indicator_size") * scale / 2
 
     x = rect.left + min(
-        max(setting_x.get() * rect.width - radius, 0),
+        max(settings.get("user.mode_indicator_x") * rect.width - radius, 0),
         rect.width - 2 * radius,
     )
 
     y = rect.top + min(
-        max(setting_y.get() * rect.height - radius, 0),
+        max(settings.get("user.mode_indicator_y") * rect.height - radius, 0),
         rect.height - 2 * radius,
     )
 
@@ -135,9 +174,16 @@ def move_indicator():
     canvas.move(x, y)
 
 
+def should_show_indicator():
+    return visibility_mode or (
+        visibility_mode is None and settings.get("user.mode_indicator_show")
+    )
+
+
 def show_indicator():
     global canvas
     canvas = Canvas.from_rect(Rect(0, 0, 0, 0))
+    move_indicator()
     canvas.register("draw", on_draw)
 
 
@@ -149,10 +195,11 @@ def hide_indicator():
 
 
 def update_indicator():
-    if setting_show.get():
+    if should_show_indicator():
         if not canvas:
             show_indicator()
-        move_indicator()
+        else:
+            move_indicator()
         canvas.freeze()
     elif canvas:
         hide_indicator()
@@ -178,15 +225,46 @@ def on_update_contexts():
         update_indicator()
 
 
-def on_update_settings(updated_settings: set[str]):
-    if setting_paths & updated_settings:
+def poll_for_changes():
+    poll_settings()
+    poll_microphone()
+
+
+def poll_settings():
+    did_a_setting_change = False
+    for setting_name in setting_values:
+        current = settings.get(setting_name)
+        if current != setting_values[setting_name]:
+            did_a_setting_change = True
+            setting_values[setting_name] = current
+    if did_a_setting_change:
+        update_indicator()
+
+
+def poll_microphone():
+    # Ideally, we would have a callback instead of needing to poll. https://github.com/talonvoice/talon/issues/624
+    global current_microphone
+    microphone = actions.sound.active_microphone()
+    if current_microphone != microphone:
+        current_microphone = microphone
+        update_indicator()
+
+
+@mod.action_class
+class Actions:
+    def mode_indicator_set_visibility(
+        new_visibility_mode: Optional[bool] = None,
+    ):
+        """Update how the mode indicator visibility is determined. True means to show the indicator. False means to hide the indicator. None means to default to the user.mode_indicator_show setting."""
+        global visibility_mode
+        visibility_mode = new_visibility_mode
         update_indicator()
 
 
 def on_ready():
     registry.register("update_contexts", on_update_contexts)
-    registry.register("update_settings", on_update_settings)
-    ui.register("screen_change", lambda _: update_indicator)
+    ui.register("screen_change", lambda _: update_indicator())
+    cron.interval("500ms", poll_for_changes)
 
 
 app.register("ready", on_ready)

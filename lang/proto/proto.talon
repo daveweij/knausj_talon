@@ -2,6 +2,8 @@ code.language: protobuf
 -
 
 # this is pretty bare-bones, further contributions welcome
+block: user.code_block()
+
 state message: "message "
 state package: "package "
 state reserved: "reserved "

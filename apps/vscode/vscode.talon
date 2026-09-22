@@ -1,17 +1,20 @@
 #custom vscode commands go here
 app: vscode
 -
+
 tag(): user.find_and_replace
 tag(): user.line_commands
 tag(): user.multiple_cursors
 tag(): user.splits
 tag(): user.tabs
+tag(): user.command_search
+
 window reload: user.vscode("workbench.action.reloadWindow")
 window close: user.vscode("workbench.action.closeWindow")
 #multiple_cursor.py support end
 
-please [<user.text>]:
-    user.vscode("workbench.action.showCommands")
+go view [<user.text>]:
+    user.vscode("workbench.action.openView")
     insert(user.text or "")
 
 # Sidebar
@@ -53,6 +56,9 @@ show settings workspace json: user.vscode("workbench.action.openWorkspaceSetting
 show shortcuts: user.vscode("workbench.action.openGlobalKeybindings")
 show shortcuts json: user.vscode("workbench.action.openGlobalKeybindingsFile")
 show snippets: user.vscode("workbench.action.openSnippets")
+
+# VSCode Snippets
+snip (last | previous): user.vscode("jumpToPrevSnippetPlaceholder")
 
 # Display
 centered switch: user.vscode("workbench.action.toggleCenteredLayout")
@@ -107,7 +113,7 @@ format selection: user.vscode("editor.action.formatSelection")
 imports fix: user.vscode("editor.action.organizeImports")
 problem next: user.vscode("editor.action.marker.nextInFiles")
 problem last: user.vscode("editor.action.marker.prevInFiles")
-problem fix: user.vscode("problems.action.showQuickFixes")
+problem fix: user.vscode("editor.action.quickFix")
 rename that: user.vscode("editor.action.rename")
 refactor that: user.vscode("editor.action.refactor")
 whitespace trim: user.vscode("editor.action.trimTrailingWhitespace")
@@ -116,7 +122,7 @@ refactor rename: user.vscode("editor.action.rename")
 refactor this: user.vscode("editor.action.refactor")
 
 #code navigation
-(go declaration | follow): user.vscode("editor.action.revealDefinition")
+go declaration | follow: user.vscode("editor.action.revealDefinition")
 go back: user.vscode("workbench.action.navigateBack")
 go forward: user.vscode("workbench.action.navigateForward")
 go implementation: user.vscode("editor.action.goToImplementation")
@@ -239,7 +245,9 @@ terminal scroll up: user.vscode("workbench.action.terminal.scrollUp")
 terminal scroll down: user.vscode("workbench.action.terminal.scrollDown")
 terminal <number_small>: user.vscode_terminal(number_small)
 
-#TODO: should this be added to linecommands?
+task run [<user.text>]:
+    user.vscode("workbench.action.tasks.runTask")
+    insert(user.text or "")
 copy line down: user.vscode("editor.action.copyLinesDownAction")
 copy line up: user.vscode("editor.action.copyLinesUpAction")
 
@@ -266,6 +274,7 @@ join lines: user.vscode("editor.action.joinLines")
 full screen: user.vscode("workbench.action.toggleFullScreen")
 
 curse undo: user.vscode("cursorUndo")
+curse redo: user.vscode("cursorRedo")
 
 select word: user.vscode("editor.action.addSelectionToNextFindMatch")
 skip word: user.vscode("editor.action.moveSelectionToNextFindMatch")
